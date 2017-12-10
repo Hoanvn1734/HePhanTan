@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_storage_client;
+package rmi_upload_client;
 
 import java.awt.Button;
 import java.awt.event.ActionEvent;
@@ -21,8 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import jdk.nashorn.internal.ir.ContinueNode;
-import rmi_storage_server.FileServer;
-import rmi_storage_server.FileServerInt;
+import rmi_download_server.FileServer;
+import rmi_download_server.FileServerInt;
 import java.util.concurrent.atomic.AtomicBoolean;
 /**
  *

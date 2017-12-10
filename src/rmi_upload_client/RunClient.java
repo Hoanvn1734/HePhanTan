@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_storage_client;
+package rmi_upload_client;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -19,8 +19,8 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.joda.time.DateTimeUtils;
-import rmi_storage_server.FileServer;
-import rmi_storage_server.FileServerInt;
+import rmi_download_server.FileServer;
+import rmi_download_server.FileServerInt;
 
 /**
  *

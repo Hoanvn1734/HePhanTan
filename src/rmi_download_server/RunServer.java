@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_storage_server;
+package rmi_download_server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_storage_server;
+package rmi_download_server;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import rmi_storage_client.FileClientInt;
+import rmi_upload_client.FileClientInt;
 
 /**
  *

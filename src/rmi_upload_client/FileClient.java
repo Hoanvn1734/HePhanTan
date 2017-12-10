@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_storage_client;
+package rmi_upload_client;
 
 import java.net.InetAddress;
 import java.rmi.RemoteException;

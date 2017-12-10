@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_storage_server;
+package rmi_download_server;
 
 import com.healthmarketscience.rmiio.SerializableInputStream;
 import com.healthmarketscience.rmiio.SerializableOutputStream;
@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import org.joda.time.DateTimeUtils;
-import rmi_storage_client.FileClientInt;
+import rmi_upload_client.FileClientInt;
 
 /**
  *
