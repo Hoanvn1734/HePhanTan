@@ -164,13 +164,13 @@ public class RunServer extends javax.swing.JFrame {
         if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             TFpath.setText(""+ chooser.getSelectedFile());
         }else {
-            JOptionPane.showMessageDialog(null, "Hãy chọn thư mục đồng bộ");
+            JOptionPane.showMessageDialog(null, "Hãy chọn thư mục upload");
         }
     }//GEN-LAST:event_BTpathActionPerformed
 
     private void BTrunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTrunActionPerformed
         if(TFpath.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Hãy chọn thư mục đồng bộ");
+            JOptionPane.showMessageDialog(null, "Hãy chọn thư mục download");
         }else {
             try {
                 System.setProperty("java.security.policy","E:\\Subject\\Ky1Nam4\\Hephantan\\BTL_HPT\\rmi_storage_client\\security.policy");

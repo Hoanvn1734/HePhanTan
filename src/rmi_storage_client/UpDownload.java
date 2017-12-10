@@ -38,6 +38,7 @@ public class UpDownload {
     private int state; // 1 la upload, 2 la download
     private boolean check = true; // false la pause, true la tiep tuc down
     private boolean wait = true;
+    private static int countTotalFile;
 
     public UpDownload() {
 
@@ -159,9 +160,8 @@ public class UpDownload {
     private void splitFile(File srcFile, File desFile) {
         FileInputStream fis;
         FileOutputStream fos;
-        int numFile = 4;
         int sizeSrcFile = (int) srcFile.length();
-        int sizeEachFile = (int) srcFile.length() / numFile;
+        int sizeEachFile = 16 * 1024 * 1024;
         int nChunks = 0, read = 0, readLength = sizeEachFile;
         byte[] byteChunkPart;
         try {
@@ -174,6 +174,8 @@ public class UpDownload {
                 read = fis.read(byteChunkPart, 0, (int) readLength);
                 sizeSrcFile -= read;
                 nChunks++;
+                countTotalFile = nChunks;
+                System.out.println(countTotalFile);
                 fos = new FileOutputStream(new File(desFile.getAbsoluteFile() + ".part") + Integer.toString(nChunks));               
                 fos.write(byteChunkPart);
                 fos.flush();
@@ -195,10 +197,10 @@ public class UpDownload {
         byte[] fileBytes;
         int bytesRead = 0;
         List<File> list = new ArrayList<File>();
-        list.add(new File(srcFile.getAbsoluteFile()+ ".part1"));
-        list.add(new File(srcFile.getAbsoluteFile()+ ".part2"));
-        list.add(new File(srcFile.getAbsoluteFile()+ ".part3"));
-        list.add(new File(srcFile.getAbsoluteFile()+ ".part4"));
+        System.out.println(countTotalFile);
+        for(int i = 1; i <= countTotalFile; i++) {
+            list.add(new File(srcFile.getAbsoluteFile() + ".part" + i));
+        }
         try {
             fos = new FileOutputStream(srcFile, true);
             for (File file : list) {
@@ -210,7 +212,7 @@ public class UpDownload {
                 fileBytes = null;
                 fis.close();
                 fis = null;
-//                file.delete();
+                file.delete();
             }
             fos.close();
             fos = null;
@@ -220,21 +222,23 @@ public class UpDownload {
     }
 
     private void copyFile(File srcFile, File destFile) throws Exception {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
+//        InputStream is = null;
+//        OutputStream os = null;
+//        try {
             if (srcFile.isFile()) {
                 if (state == 1) {
-                    is = server.getFileInputStream(srcFile);
-                    os = new FileOutputStream(destFile, false);
+                    splitFile(srcFile, destFile);
+                    mergeFile(destFile);
+                    System.out.println("Da upload thanh cong");
                 } else if (state == 2) {
-                    is = new FileInputStream(srcFile);
-                    os = server.getFileOutputStream(destFile);
+                    splitFile(srcFile, destFile);
+                    mergeFile(destFile);
+                    System.out.println("Da tai thanh cong");
                 }
 
-                splitFile(srcFile, destFile);
-                mergeFile(destFile);
-                System.out.println("Da tai thanh cong");
+//                splitFile(srcFile, destFile);
+//                mergeFile(destFile);
+//                System.out.println("Da tai thanh cong");
             }
             if (srcFile.isDirectory()) {
                 // Neu thu muc dich khong ton tai thi tao ra thu muc moi
@@ -248,14 +252,14 @@ public class UpDownload {
                     copyFile(new File(f.getAbsolutePath()), new File(destFile + "\\" + f.getName()));
                 }
             }
-        } finally {
-            if (is != null) {
-                is.close();
-            }
-            if (os != null) {
-                os.close();
-            }
-        }
+//        } finally {
+//            if (is != null) {
+//                is.close();
+//            }
+//            if (os != null) {
+//                os.close();
+//            }
+//        }
 
         boolean successTimestampOp = destFile.setLastModified(srcFile.lastModified());
         if (!successTimestampOp) {
