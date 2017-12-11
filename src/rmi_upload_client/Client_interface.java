@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import jdk.nashorn.internal.ir.ContinueNode;
 import rmi_download_server.FileServer;
 import rmi_download_server.FileServerInt;
-import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  *
  * @author robot
@@ -43,9 +43,8 @@ public class Client_interface extends javax.swing.JFrame {
     private String client_path = "";
     private UpDownload updownload;
     private String UserName = "";
-    private AtomicBoolean paused;
-    private Thread threadObject;
-   
+    private boolean isStart = false;
+    private boolean isbegin = true;
 
     public Client_interface(final String path, FileClientInt client, FileServerInt server, String userName) throws RemoteException, Exception {
         this.UserName = userName;
@@ -54,9 +53,7 @@ public class Client_interface extends javax.swing.JFrame {
         this.client = client;
         this.server = server;
         this.state = -1;
-        paused = new AtomicBoolean(false);
         initComponents();
-        initAction();
         initTime();
         startSync();
     }
@@ -71,9 +68,8 @@ public class Client_interface extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         File f = new File(path);
         File[] allSubFiles = f.listFiles();
-        if(allSubFiles == null) {
-        }
-        else {
+        if (allSubFiles == null) {
+        } else {
             for (File file : allSubFiles) {
                 Vector element = new Vector();
                 if (file.isDirectory()) {
@@ -89,7 +85,7 @@ public class Client_interface extends javax.swing.JFrame {
                 }
                 data.add(element);
             }
-            if(x == 0) {
+            if (x == 0) {
                 TB_client.setModel(new DefaultTableModel(data, col));
             } else {
                 TB_server.setModel(new DefaultTableModel(data, col));
@@ -97,28 +93,27 @@ public class Client_interface extends javax.swing.JFrame {
         }
     }
 
-    public boolean deleteFile(File delFile) {
-        if (delFile.isDirectory()) {
-            if (delFile.list().length == 0) {
-                delFile.delete();
-                return true;
-            } else {
-                File[] allSubFiles = delFile.listFiles();
-                for (File file : allSubFiles) {
-                    if (file.isDirectory()) {
-                        deleteFile(file);
-                    } else {
-                        file.delete();
-                    }
-                }
-            }
-        } else {
-            delFile.delete();
-            return true;
-        }
-        return false;
-    }
-
+//    public boolean deleteFile(File delFile) {
+//        if (delFile.isDirectory()) {
+//            if (delFile.list().length == 0) {
+//                delFile.delete();
+//                return true;
+//            } else {
+//                File[] allSubFiles = delFile.listFiles();
+//                for (File file : allSubFiles) {
+//                    if (file.isDirectory()) {
+//                        deleteFile(file);
+//                    } else {
+//                        file.delete();
+//                    }
+//                }
+//            }
+//        } else {
+//            delFile.delete();
+//            return true;
+//        }
+//        return false;
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -185,7 +180,7 @@ public class Client_interface extends javax.swing.JFrame {
             }
         });
 
-        BT_PauseUpload.setText("Pause");
+        BT_PauseUpload.setText("Upload");
         BT_PauseUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_PauseUploadActionPerformed(evt);
@@ -254,58 +249,55 @@ public class Client_interface extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateTable(server_path.getParent() + "\\" + server_path.getName(), 1);
-                updateTable(client_path, 0);                
+                updateTable(client_path, 0);
             }
         });
         timer.start();
-    }
-    
-    private void initAction() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    for (int i = 0; i < Integer.MAX_VALUE; i++) {
-                        if (paused.get()) {
-                            synchronized (threadObject) {
-                                // Pause
-                                try {
-                                    threadObject.wait();
-                                } catch (InterruptedException e) {
-                                }
-                            }
-                        }
-
-                        // Sleep
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                        }
-                    }
-                }
-            }
-        };
-        threadObject = new Thread(runnable);
-        threadObject.start();
     }
 
     private void BT_clientUpLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_clientUpLoadActionPerformed
         int row = TB_client.getSelectedRow();
         if (row > -1) {
-            if(BT_clientUpLoad.getText().equalsIgnoreCase("Upload")) {
-                try {
-                    // Cho bat dau upload
+//                    if (BT_clientUpLoad.getText().equalsIgnoreCase("Upload")) {
+            try {
+                if (isbegin) {
+                    BT_clientUpLoad.setText("Upload");
                     updownload.setState(1);
                     File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
                     File serverfile = server.getServerFile();
                     updownload.setCheck(true);
                     updownload.upDownLoad(clientfile, serverfile);
-                } catch (RemoteException ex) {
-                    Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
+                    updownload.setPaused(false);
+                    BT_clientUpLoad.setText("Pause");
+                    isbegin = false;
+                } else if (!updownload.getPaused()) {
+                    BT_clientUpLoad.setText("Upload");
+                    updownload.setPaused(true);
+                    updownload.setState(1);
+                    File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
+                    File serverfile = server.getServerFile();
+                    updownload.setCheck(true);
+                    updownload.upDownLoad(clientfile, serverfile);
+                } else {
+                    BT_clientUpLoad.setText("Pause");
+                    updownload.setPaused(false);
                 }
+                if (updownload.getSuccess() == true) {
+                    BT_clientUpLoad.setText("Upload");
+                    isbegin = true;
+                }
+                // Cho bat dau upload
+//                updownload.setState(1);
+//                File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
+//                File serverfile = server.getServerFile();
+//                updownload.setCheck(true);
+//                updownload.upDownLoad(clientfile, serverfile);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
             }
+//                    }
         } else {
             JOptionPane.showMessageDialog(null, "Bạn chưa chọn file nào để Upload");
         }
@@ -314,32 +306,56 @@ public class Client_interface extends javax.swing.JFrame {
     private void BT_serverDownLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_serverDownLoadActionPerformed
         int row = TB_server.getSelectedRow();
         if (row > -1) {
-            if(BT_serverDownLoad.getText().equalsIgnoreCase("Download")) {
-                try {
+//                    if (BT_clientUpLoad.getText().equalsIgnoreCase("Upload")) {
+            try {
+                if (isbegin) {
+                    BT_serverDownLoad.setText("Download");
                     updownload.setState(2);
                     File serverfile = new File(server_path + "/" + TB_server.getValueAt(row, 1));
                     File clientfile = new File(client_path);
-                    System.out.println(serverfile);
-                    System.out.println(clientfile);
                     updownload.setCheck(true);
                     updownload.upDownLoad(serverfile, clientfile);
-//                    startSync();
-                } catch (RemoteException ex) {
-                    Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
+                    updownload.setPaused(false);
+                    BT_serverDownLoad.setText("Pause");
+                    isbegin = false;
+                } else if (!updownload.getPaused()) {
+                    BT_serverDownLoad.setText("Download");
+                    updownload.setPaused(true);
+                    updownload.setState(2);
+                    File serverfile = new File(server_path + "/" + TB_server.getValueAt(row, 1));
+                    File clientfile = new File(client_path);
+                    updownload.setCheck(true);
+                    updownload.upDownLoad(serverfile, clientfile);
+                } else {
+                    BT_serverDownLoad.setText("Pause");
+                    updownload.setPaused(false);
                 }
+                if (updownload.getSuccess() == true) {
+                    BT_serverDownLoad.setText("Upload");
+                    isbegin = true;
+                }
+                // Cho bat dau upload
+//                updownload.setState(1);
+//                File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
+//                File serverfile = server.getServerFile();
+//                updownload.setCheck(true);
+//                updownload.upDownLoad(clientfile, serverfile);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
             }
+//                    }
         } else {
-            JOptionPane.showMessageDialog(null, "Bạn chưa chọn file nào để Download");
+            JOptionPane.showMessageDialog(null, "Bạn chưa chọn file nào để Upload");
         }
     }//GEN-LAST:event_BT_serverDownLoadActionPerformed
 
     private void BT_PauseDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_PauseDownloadActionPerformed
         // TODO add your handling code here:
-        if(BT_PauseDownload.getText().equalsIgnoreCase("Pause")) {
+        if (BT_PauseDownload.getText().equalsIgnoreCase("Pause")) {
             updownload.setCheck(false);
-            while(true) {
+            while (true) {
                 continue;
             }
         }
@@ -347,20 +363,52 @@ public class Client_interface extends javax.swing.JFrame {
 
     private void BT_PauseUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_PauseUploadActionPerformed
         // TODO add your handling code here:
-//        if(BT_PauseUpload.getText().equalsIgnoreCase("Pause")) {
-            if (!paused.get()) {
-                BT_PauseUpload.setText("Resume");
-                paused.set(true);
-            } else {
-                BT_PauseUpload.setText("Pause");
-                paused.set(false);
-
-                // Resume
-                synchronized (threadObject) {
-                    threadObject.notify();
+        int row = TB_client.getSelectedRow();
+        if (row > -1) {
+//                    if (BT_clientUpLoad.getText().equalsIgnoreCase("Upload")) {
+            try {
+                if (isbegin) {
+                    BT_PauseUpload.setText("Upload");
+                    updownload.setState(1);
+                    File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
+                    File serverfile = server.getServerFile();
+                    updownload.setCheck(true);
+                    updownload.upDownLoad(clientfile, serverfile);
+                    updownload.setPaused(false);
+                    BT_PauseUpload.setText("Pause");
+                    isbegin = false;
+                } else if (!updownload.getPaused()) {
+                    BT_PauseUpload.setText("Upload");
+                    updownload.setPaused(true);
+                    updownload.setState(1);
+                    File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
+                    File serverfile = server.getServerFile();
+                    updownload.setCheck(true);
+                    updownload.upDownLoad(clientfile, serverfile);
+                } else {
+                    BT_PauseUpload.setText("Pause");
+                    updownload.setPaused(false);
                 }
+                if (updownload.getSuccess() == true) {
+                    BT_PauseUpload.setText("Upload");
+                    isbegin = true;
+                }
+                // Cho bat dau upload
+//                updownload.setState(1);
+//                File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
+//                File serverfile = server.getServerFile();
+//                updownload.setCheck(true);
+//                updownload.upDownLoad(clientfile, serverfile);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
             }
-//        }
+//                    }
+        } else {
+            JOptionPane.showMessageDialog(null, "Bạn chưa chọn file nào để Upload");
+        }
+
     }//GEN-LAST:event_BT_PauseUploadActionPerformed
 
     public String getPath(String currentpath) {

@@ -99,10 +99,10 @@ public class FileServer extends UnicastRemoteObject implements FileServerInt{
     @Override
     public void disconnectsynchronous(FileClientInt fileCI) throws RemoteException {
         if(information.size() < sizeQueue){
-            information.add(new cmdServer(currentTime(), fileCI.getAddress()+" đa ngắt upload"));
+            information.add(new cmdServer(currentTime(), fileCI.getAddress()+" đa dừng upload"));
         }else{
             information.remove(0);
-            information.add(new cmdServer(currentTime(),  fileCI.getAddress()+" đã ngắt upload"));
+            information.add(new cmdServer(currentTime(),  fileCI.getAddress()+" đã dừng upload"));
         }
     }
 

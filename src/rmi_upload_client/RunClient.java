@@ -40,13 +40,13 @@ public class RunClient extends javax.swing.JFrame {
     }
 
     private void connectToServer() throws Exception {
-        System.setProperty("java.security.policy","E:\\Subject\\Ky1Nam4\\Hephantan\\BTL_HPT\\rmi_storage_client\\security.policy");
+        System.setProperty("java.security.policy","E:\\Subject\\Ky1Nam4\\Hephantan\\BTL_HPT\\rmi_upload_download\\security.policy");
         System.getProperty("java.rmi.server.hostname", getIp());
         String url = "rmi://" + TFip.getText() + ":6969" + "/server";
         server = (FileServerInt) Naming.lookup(url);
         System.out.println("Connected");
         client = new FileClient(InetAddress.getLocalHost());
-        clockSync();
+//        clockSync();
     }
     
     // lay dia chi ip cua may ipv4 
@@ -73,60 +73,60 @@ public class RunClient extends javax.swing.JFrame {
         return ipAddress;
     }
 
-    private void clockSync() throws Exception {
-        String serverIP = TFip.getText();
-
-        // Send request
-        DatagramSocket socket = new DatagramSocket();
-        InetAddress address = InetAddress.getByName(serverIP);
-        byte[] buf = new NtpMessage().toByteArray();
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, address,
-                123);
-
-        // Set the transmit timestamp *just* before sending the packet
-        // ToDo: Does this actually improve performance or not?
-        NtpMessage.encodeTimestamp(packet.getData(), 40,
-                (System.currentTimeMillis() / 1000.0) + 2208988800.0);
-
-        socket.send(packet);
-
-        // Get response
-        System.out.println("NTP request sent, waiting for response...\n");
-        packet = new DatagramPacket(buf, buf.length);
-        socket.receive(packet);
-
-        // Immediately record the incoming timestamp
-        double destinationTimestamp = (System.currentTimeMillis() / 1000.0) + 2208988800.0;
-
-        // Process response
-        NtpMessage msg = new NtpMessage(packet.getData());
-
-        // Corrected, according to RFC2030 errata
-        double roundTripDelay = (destinationTimestamp - msg.originateTimestamp)
-                - (msg.transmitTimestamp - msg.receiveTimestamp);
-
-        double localClockOffset = ((msg.receiveTimestamp - msg.originateTimestamp) + (msg.transmitTimestamp - destinationTimestamp)) / 2;
-
-        // Display response
-        System.out.println("NTP server: " + serverIP);
-        System.out.println(msg.toString());
-
-        System.out.println("Dest. timestamp:     "
-                + NtpMessage.timestampToString(destinationTimestamp));
-
-        System.out.println("Round-trip delay: "
-                + new DecimalFormat("0.00").format(roundTripDelay * 1000)
-                + " ms");
-
-        System.out.println("Local clock offset: "
-                + new DecimalFormat("0.00").format(localClockOffset * 1000)
-                + " ms");
-        System.out.println("Current time " + DateTimeUtils.currentTimeMillis());
-        DateTimeUtils.setCurrentMillisOffset((long) (localClockOffset * 1000));
-        System.out.println("Current time " + DateTimeUtils.currentTimeMillis());
-
-        socket.close();
-    }
+//    private void clockSync() throws Exception {
+//        String serverIP = TFip.getText();
+//
+//        // Send request
+//        DatagramSocket socket = new DatagramSocket();
+//        InetAddress address = InetAddress.getByName(serverIP);
+//        byte[] buf = new NtpMessage().toByteArray();
+//        DatagramPacket packet = new DatagramPacket(buf, buf.length, address,
+//                123);
+//
+//        // Set the transmit timestamp *just* before sending the packet
+//        // ToDo: Does this actually improve performance or not?
+//        NtpMessage.encodeTimestamp(packet.getData(), 40,
+//                (System.currentTimeMillis() / 1000.0) + 2208988800.0);
+//
+//        socket.send(packet);
+//
+//        // Get response
+//        System.out.println("NTP request sent, waiting for response...\n");
+//        packet = new DatagramPacket(buf, buf.length);
+//        socket.receive(packet);
+//
+//        // Immediately record the incoming timestamp
+//        double destinationTimestamp = (System.currentTimeMillis() / 1000.0) + 2208988800.0;
+//
+//        // Process response
+//        NtpMessage msg = new NtpMessage(packet.getData());
+//
+//        // Corrected, according to RFC2030 errata
+//        double roundTripDelay = (destinationTimestamp - msg.originateTimestamp)
+//                - (msg.transmitTimestamp - msg.receiveTimestamp);
+//
+//        double localClockOffset = ((msg.receiveTimestamp - msg.originateTimestamp) + (msg.transmitTimestamp - destinationTimestamp)) / 2;
+//
+//        // Display response
+//        System.out.println("NTP server: " + serverIP);
+//        System.out.println(msg.toString());
+//
+//        System.out.println("Dest. timestamp:     "
+//                + NtpMessage.timestampToString(destinationTimestamp));
+//
+//        System.out.println("Round-trip delay: "
+//                + new DecimalFormat("0.00").format(roundTripDelay * 1000)
+//                + " ms");
+//
+//        System.out.println("Local clock offset: "
+//                + new DecimalFormat("0.00").format(localClockOffset * 1000)
+//                + " ms");
+//        System.out.println("Current time " + DateTimeUtils.currentTimeMillis());
+//        DateTimeUtils.setCurrentMillisOffset((long) (localClockOffset * 1000));
+//        System.out.println("Current time " + DateTimeUtils.currentTimeMillis());
+//
+//        socket.close();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
