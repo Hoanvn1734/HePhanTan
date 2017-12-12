@@ -131,8 +131,6 @@ public class Client_interface extends javax.swing.JFrame {
         TB_server = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         BT_serverDownLoad = new javax.swing.JButton();
-        BT_PauseUpload = new javax.swing.JButton();
-        BT_PauseDownload = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -180,20 +178,6 @@ public class Client_interface extends javax.swing.JFrame {
             }
         });
 
-        BT_PauseUpload.setText("Upload");
-        BT_PauseUpload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_PauseUploadActionPerformed(evt);
-            }
-        });
-
-        BT_PauseDownload.setText("Pause");
-        BT_PauseDownload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_PauseDownloadActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -211,15 +195,11 @@ public class Client_interface extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(250, 250, 250))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addGap(146, 146, 146)
                 .addComponent(BT_clientUpLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
-                .addComponent(BT_PauseUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(213, 213, 213)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BT_serverDownLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(BT_PauseDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(221, 221, 221))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,11 +209,9 @@ public class Client_interface extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BT_serverDownLoad)
-                    .addComponent(BT_clientUpLoad)
-                    .addComponent(BT_PauseUpload)
-                    .addComponent(BT_PauseDownload))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(BT_serverDownLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BT_clientUpLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
@@ -282,7 +260,7 @@ public class Client_interface extends javax.swing.JFrame {
                     BT_clientUpLoad.setText("Pause");
                     updownload.setPaused(false);
                 }
-                if (updownload.getSuccess() == true) {
+                if (updownload.getSuccess()) {
                     BT_clientUpLoad.setText("Upload");
                     isbegin = true;
                 }
@@ -330,10 +308,6 @@ public class Client_interface extends javax.swing.JFrame {
                     BT_serverDownLoad.setText("Pause");
                     updownload.setPaused(false);
                 }
-                if (updownload.getSuccess() == true) {
-                    BT_serverDownLoad.setText("Upload");
-                    isbegin = true;
-                }
                 // Cho bat dau upload
 //                updownload.setState(1);
 //                File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
@@ -350,66 +324,6 @@ public class Client_interface extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Bạn chưa chọn file nào để Upload");
         }
     }//GEN-LAST:event_BT_serverDownLoadActionPerformed
-
-    private void BT_PauseDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_PauseDownloadActionPerformed
-        // TODO add your handling code here:
-        if (BT_PauseDownload.getText().equalsIgnoreCase("Pause")) {
-            updownload.setCheck(false);
-            while (true) {
-                continue;
-            }
-        }
-    }//GEN-LAST:event_BT_PauseDownloadActionPerformed
-
-    private void BT_PauseUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_PauseUploadActionPerformed
-        // TODO add your handling code here:
-        int row = TB_client.getSelectedRow();
-        if (row > -1) {
-//                    if (BT_clientUpLoad.getText().equalsIgnoreCase("Upload")) {
-            try {
-                if (isbegin) {
-                    BT_PauseUpload.setText("Upload");
-                    updownload.setState(1);
-                    File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
-                    File serverfile = server.getServerFile();
-                    updownload.setCheck(true);
-                    updownload.upDownLoad(clientfile, serverfile);
-                    updownload.setPaused(false);
-                    BT_PauseUpload.setText("Pause");
-                    isbegin = false;
-                } else if (!updownload.getPaused()) {
-                    BT_PauseUpload.setText("Upload");
-                    updownload.setPaused(true);
-                    updownload.setState(1);
-                    File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
-                    File serverfile = server.getServerFile();
-                    updownload.setCheck(true);
-                    updownload.upDownLoad(clientfile, serverfile);
-                } else {
-                    BT_PauseUpload.setText("Pause");
-                    updownload.setPaused(false);
-                }
-                if (updownload.getSuccess() == true) {
-                    BT_PauseUpload.setText("Upload");
-                    isbegin = true;
-                }
-                // Cho bat dau upload
-//                updownload.setState(1);
-//                File clientfile = new File(client_path + "/" + TB_client.getValueAt(row, 1));
-//                File serverfile = server.getServerFile();
-//                updownload.setCheck(true);
-//                updownload.upDownLoad(clientfile, serverfile);
-            } catch (RemoteException ex) {
-                Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
-            }
-//                    }
-        } else {
-            JOptionPane.showMessageDialog(null, "Bạn chưa chọn file nào để Upload");
-        }
-
-    }//GEN-LAST:event_BT_PauseUploadActionPerformed
 
     public String getPath(String currentpath) {
         int endIndex = 0;
@@ -437,8 +351,6 @@ public class Client_interface extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BT_PauseDownload;
-    private javax.swing.JButton BT_PauseUpload;
     private javax.swing.JButton BT_clientUpLoad;
     private javax.swing.JButton BT_serverDownLoad;
     private javax.swing.JTable TB_client;

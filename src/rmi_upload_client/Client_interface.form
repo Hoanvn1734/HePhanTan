@@ -38,15 +38,11 @@
               <EmptySpace min="-2" pref="250" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
               <Component id="BT_clientUpLoad" min="-2" pref="94" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-              <Component id="BT_PauseUpload" min="-2" pref="78" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
-              <Component id="BT_serverDownLoad" min="-2" pref="94" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-              <Component id="BT_PauseDownload" min="-2" pref="75" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="BT_serverDownLoad" min="-2" pref="94" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -59,13 +55,11 @@
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="BT_serverDownLoad" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="BT_clientUpLoad" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="BT_PauseUpload" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="BT_PauseDownload" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="BT_serverDownLoad" max="32767" attributes="0"/>
+                  <Component id="BT_clientUpLoad" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jScrollPane1" pref="238" max="32767" attributes="0"/>
                   <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
@@ -147,22 +141,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_serverDownLoadActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="BT_PauseUpload">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Upload"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_PauseUploadActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="BT_PauseDownload">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Pause"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_PauseDownloadActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

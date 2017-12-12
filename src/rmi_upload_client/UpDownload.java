@@ -80,7 +80,10 @@ public class UpDownload {
                 myThread.notify();
             }
         }
-//        copy.stop();
+        if(getSuccess()) {
+            copy.stop();
+            isBegin = true;
+        }
     }
 
     private void copyFile(File srcFile, File destFile) throws Exception {
@@ -102,7 +105,7 @@ public class UpDownload {
             File[] listFile = srcFile.listFiles();
             for (File f : listFile) {
 //                    System.out.println(f.getAbsolutePath());
-//                    System.out.println(destFile);
+//                    System.out.println(destFile.getAbsoluteFile());
                 copyFile(new File(f.getAbsolutePath()), new File(destFile + "\\" + f.getName()));
             }
         }
@@ -241,8 +244,10 @@ class CopyFile2 implements Runnable {
                     if(sizeSrcFile == 0) {
                         success = true;
                         mergeFile(desFile);
+                    } else {
+                        success = false;
                     }
-                    success = false;
+                    System.out.println(success);
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
