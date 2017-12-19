@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/Desktop/New%20Folder/hephantan/src/rmi_upload_client/Client_interface.java</file>
-            <file>file:/C:/Users/admin/Desktop/New%20Folder/hephantan/src/rmi_upload_client/UpDownload.java</file>
-            <file>file:/C:/Users/admin/Desktop/New%20Folder/hephantan/src/rmi_upload_client/FileClientInt.java</file>
-            <file>file:/C:/Users/admin/Desktop/New%20Folder/hephantan/src/rmi_upload_client/RunClient.java</file>
-            <file>file:/C:/Users/admin/Desktop/New%20Folder/hephantan/src/rmi_upload_client/FileClient.java</file>
+            <file>file:/E:/Subject/Ky1Nam4/Hephantan/BTL_HPT/rmi_upload_download/src/rmi_client/UpDownload.java</file>
+            <file>file:/E:/Subject/Ky1Nam4/Hephantan/BTL_HPT/rmi_upload_download/src/rmi_server/FileServerInt.java</file>
+            <file>file:/E:/Subject/Ky1Nam4/Hephantan/BTL_HPT/rmi_upload_download/src/rmi_client/Client_interface.java</file>
+            <file>file:/E:/Subject/Ky1Nam4/Hephantan/BTL_HPT/rmi_upload_download/src/rmi_client/RunClient.java</file>
+            <file>file:/E:/Subject/Ky1Nam4/Hephantan/BTL_HPT/rmi_upload_download/src/rmi_server/FileServer.java</file>
         </group>
     </open-files>
 </project-private>

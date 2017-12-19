@@ -60,18 +60,19 @@ public class Client_interface extends javax.swing.JFrame {
         start();
     }
 
-    public void updateTable(String path, int x) {
+    public void updateTable(String path, int x) throws RemoteException {
         Vector col = new Vector();
         col.add("Loại");
         col.add("Tên");
         col.add("Kích thước");
         col.add("Ngày cập nhật");
-        col.add("Người cập nhật");
+        if(x == 1) {
+            col.add("Người cập nhật");
+        }
         Vector data = new Vector();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         File f = new File(path);
         File[] allSubFiles = f.listFiles();
-        upload = new UpDownload(UserName);
         if (allSubFiles == null) {
         } else {
             for (File file : allSubFiles) {
@@ -80,7 +81,9 @@ public class Client_interface extends javax.swing.JFrame {
                 element.addElement(file.getName());
                 element.addElement(file.length());
                 element.addElement(sdf.format(file.lastModified()));
-                element.addElement(upload);
+                if (x == 1) {
+                    element.addElement(server.getUserName(file.getName()));
+                }
                 data.add(element);
             }
             if (x == 0) {
@@ -224,8 +227,12 @@ public class Client_interface extends javax.swing.JFrame {
         Timer timer = new Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateTable(server_path.getParent() + "\\" + server_path.getName(), 1);
-                updateTable(client_path, 0);
+                try {
+                    updateTable(server_path.getParent() + "\\" + server_path.getName(), 1);
+                    updateTable(client_path, 0);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         timer.start();
@@ -243,7 +250,12 @@ public class Client_interface extends javax.swing.JFrame {
                     System.out.println(clientfile);
                     System.out.println(serverfile);
                     upload = new UpDownload(client, server, 1, UserName, clientfile, serverfile);
-                    upload.start();
+                    if (server.checkListThread(clientfile.getName())) {
+                        JOptionPane.showMessageDialog(null, "File đang được upload bởi user khác");
+                    } else{
+                        server.addFileName(clientfile.getName());
+                        upload.start();
+                    }
                 } catch (RemoteException ex) {
                     Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {

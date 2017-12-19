@@ -17,6 +17,18 @@ import rmi_client.FileClientInt;
  * @author robot
  */
 public interface FileServerInt extends Remote {
+    public boolean checkListThread(String name) throws RemoteException;
+    
+    public void removeElement (String name) throws RemoteException;
+    
+    public void addFileName (String name) throws RemoteException;
+    
+    public String getUserName (String file) throws RemoteException;
+    
+    public void addUserName (String file, String name) throws RemoteException;
+    
+    public void updateUserName (String file, String name) throws RemoteException;
+    
     // Hien thi trang thai ket noi
     public void connect(FileClientInt fileCI) throws RemoteException;
     

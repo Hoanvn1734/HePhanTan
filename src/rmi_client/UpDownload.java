@@ -21,7 +21,9 @@ import java.util.logging.Logger;
 import rmi_server.FileServerInt;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -57,6 +59,22 @@ public class UpDownload extends Thread {
         this.destination = destination;
     }
 
+    public File getSource() {
+        return source;
+    }
+
+    public void setSource(File source) {
+        this.source = source;
+    }
+
+    public File getDestination() {
+        return destination;
+    }
+
+    public void setDestination(File destination) {
+        this.destination = destination;
+    }
+
     @Override
     public void run() {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -79,6 +97,12 @@ public class UpDownload extends Thread {
         synchronized (this) {
             splitFile(source, destination);
             mergeFile(destination);
+            try {
+                server.removeElement(source.getName());
+                server.addUserName(source.getName(), this.Username);
+            } catch (RemoteException ex) {
+                Logger.getLogger(UpDownload.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -97,7 +121,7 @@ public class UpDownload extends Thread {
             int sizeEachFile = 1 * 1024 * 128;
             int nChunks = 0, read = 0, readLength = sizeEachFile;
             byte[] byteChunkPart;
-
+            Map map = new HashMap();
             fis = new FileInputStream(srcFile);
             while (sizeSrcFile > 0) {
 //                    Thread.sleep(300);
@@ -155,10 +179,10 @@ public class UpDownload extends Thread {
             }
             fos.close();
             fos = null;
-            if(state == 1) {
+            if (state == 1) {
                 client.setState("Người dùng " + this.Username + " : " + "file " + srcFile.getName() + " đã được upload thành công");
                 server.showState(client);
-            } else if(state == 2) {
+            } else if (state == 2) {
                 client.setState("Người dùng " + this.Username + " : " + "file " + srcFile.getName() + " đã được download thành công");
                 server.showState(client);
             }

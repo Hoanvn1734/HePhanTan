@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import rmi_client.FileClientInt;
@@ -35,10 +37,61 @@ public class FileServer extends UnicastRemoteObject implements FileServerInt {
     public boolean isStart = false;
     private ArrayList<cmdServer> information = new ArrayList<>();
     private int sizeQueue = 10;
+    private ArrayList listThread;
+    private Map listFile;
 
     public FileServer(File serverFile) throws RemoteException {
         super();
         this.serverFile = serverFile;
+        listThread = new ArrayList();
+        listFile = new HashMap<String, String>();
+    }
+
+    @Override
+    public boolean checkListThread(String name) {
+        for (int i = 0; i < listThread.size(); i++) {
+            if (name.equals(listThread.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void removeElement(String name) {
+        for (int i = 0; i < listThread.size(); i++) {
+            if (name.equals(listThread.get(i))) {
+                listThread.remove(i);
+            }
+        }
+    }
+
+    @Override
+    public void addFileName(String name) {
+        listThread.add(name);
+    }
+
+    public ArrayList getListThread() {
+        return listThread;
+    }
+
+    public void setListThread(ArrayList listThread) {
+        this.listThread = listThread;
+    }
+
+    @Override
+    public void addUserName(String file, String name) throws RemoteException {
+        listFile.put(file, name);
+    }
+
+    @Override
+    public void updateUserName(String file, String name) throws RemoteException {
+        listFile.put(file, name);
+    }
+
+    @Override
+    public String getUserName(String file) throws RemoteException {
+        return (String) listFile.get(file);
     }
 
     @Override
