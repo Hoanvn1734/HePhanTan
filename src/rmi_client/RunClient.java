@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_upload_client;
+package rmi_client;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -18,9 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import org.joda.time.DateTimeUtils;
-import rmi_download_server.FileServer;
-import rmi_download_server.FileServerInt;
+import rmi_server.FileServer;
+import rmi_server.FileServerInt;
 
 /**
  *
@@ -40,13 +39,13 @@ public class RunClient extends javax.swing.JFrame {
     }
 
     private void connectToServer() throws Exception {
-        System.setProperty("java.security.policy","E:\\Subject\\Ky1Nam4\\Hephantan\\BTL_HPT\\rmi_upload_download\\security.policy");
+        System.setProperty("java.security.policy","C:\\Users\\admin\\Desktop\\New Folder\\hephantan\\security.policy");
         System.getProperty("java.rmi.server.hostname", getIp());
         String url = "rmi://" + TFip.getText() + ":6969" + "/server";
+        // Tao lien ket tim kiem loi goi tu xa
         server = (FileServerInt) Naming.lookup(url);
         System.out.println("Connected");
         client = new FileClient(InetAddress.getLocalHost());
-//        clockSync();
     }
     
     // lay dia chi ip cua may ipv4 
@@ -72,61 +71,6 @@ public class RunClient extends javax.swing.JFrame {
         }
         return ipAddress;
     }
-
-//    private void clockSync() throws Exception {
-//        String serverIP = TFip.getText();
-//
-//        // Send request
-//        DatagramSocket socket = new DatagramSocket();
-//        InetAddress address = InetAddress.getByName(serverIP);
-//        byte[] buf = new NtpMessage().toByteArray();
-//        DatagramPacket packet = new DatagramPacket(buf, buf.length, address,
-//                123);
-//
-//        // Set the transmit timestamp *just* before sending the packet
-//        // ToDo: Does this actually improve performance or not?
-//        NtpMessage.encodeTimestamp(packet.getData(), 40,
-//                (System.currentTimeMillis() / 1000.0) + 2208988800.0);
-//
-//        socket.send(packet);
-//
-//        // Get response
-//        System.out.println("NTP request sent, waiting for response...\n");
-//        packet = new DatagramPacket(buf, buf.length);
-//        socket.receive(packet);
-//
-//        // Immediately record the incoming timestamp
-//        double destinationTimestamp = (System.currentTimeMillis() / 1000.0) + 2208988800.0;
-//
-//        // Process response
-//        NtpMessage msg = new NtpMessage(packet.getData());
-//
-//        // Corrected, according to RFC2030 errata
-//        double roundTripDelay = (destinationTimestamp - msg.originateTimestamp)
-//                - (msg.transmitTimestamp - msg.receiveTimestamp);
-//
-//        double localClockOffset = ((msg.receiveTimestamp - msg.originateTimestamp) + (msg.transmitTimestamp - destinationTimestamp)) / 2;
-//
-//        // Display response
-//        System.out.println("NTP server: " + serverIP);
-//        System.out.println(msg.toString());
-//
-//        System.out.println("Dest. timestamp:     "
-//                + NtpMessage.timestampToString(destinationTimestamp));
-//
-//        System.out.println("Round-trip delay: "
-//                + new DecimalFormat("0.00").format(roundTripDelay * 1000)
-//                + " ms");
-//
-//        System.out.println("Local clock offset: "
-//                + new DecimalFormat("0.00").format(localClockOffset * 1000)
-//                + " ms");
-//        System.out.println("Current time " + DateTimeUtils.currentTimeMillis());
-//        DateTimeUtils.setCurrentMillisOffset((long) (localClockOffset * 1000));
-//        System.out.println("Current time " + DateTimeUtils.currentTimeMillis());
-//
-//        socket.close();
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -240,13 +184,13 @@ public class RunClient extends javax.swing.JFrame {
 
     private void BTconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTconnectActionPerformed
         if(TFname.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Viết tên của mình vào để hệ thống xác thực");
+            JOptionPane.showMessageDialog(null, "Viết tên để hệ thống xác thực");
             return;
         }
         if(TFip.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Viết địa chỉ IP để kết nối");
         }else if(TFfordershare.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Chọn thư mục để Upload");
+            JOptionPane.showMessageDialog(null, "Chọn thư mục kết nối");
         }else {
             try {
                 connectToServer();

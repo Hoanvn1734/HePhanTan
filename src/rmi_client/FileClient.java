@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_upload_client;
+package rmi_client;
 
 import java.net.InetAddress;
 import java.rmi.RemoteException;
@@ -16,7 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class FileClient extends UnicastRemoteObject implements FileClientInt{
 
     public InetAddress clientAddress;
-    public String syncState;
+    public String state;
 
 
     public FileClient(InetAddress clientAddress) throws RemoteException {
@@ -28,8 +28,8 @@ public class FileClient extends UnicastRemoteObject implements FileClientInt{
 
     
     @Override
-    public String getSyncState() {
-        return syncState;
+    public String getState() {
+        return state;
     }
 
     @Override
@@ -46,8 +46,8 @@ public class FileClient extends UnicastRemoteObject implements FileClientInt{
     }
 
     @Override
-    public void setSyncState(String command) throws RemoteException {
-        syncState = command + " từ " + getAddress();
+    public void setState(String command) throws RemoteException {
+        state = command + " từ " + getAddress();
     }
 
     

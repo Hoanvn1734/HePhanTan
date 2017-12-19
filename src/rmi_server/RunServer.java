@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi_download_server;
+package rmi_server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,15 +30,14 @@ public class RunServer extends javax.swing.JFrame {
     /**
      * Creates new form RunServer
      */
-    
     private JFileChooser chooser;
     private FileServer server;
-    
+
     public RunServer() {
         initComponents();
     }
 
-// cứ sau 1s là cập nhật commandline     
+    // cứ sau 1s là cập nhật commandline     
     private void initTime() {
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
@@ -49,14 +48,15 @@ public class RunServer extends javax.swing.JFrame {
         timer.start();
     }
 
-//cập nhạt command line    
-    private void updateCMD(ArrayList<cmdServer> information){
-        String content ="";
-        for(int i = 0; i< information.size(); i++){
-            content += information.get(i).getTime() + ": "+ information.get(i).getContent()+"\n";
+    //cập nhạt command line    
+    private void updateCMD(ArrayList<cmdServer> information) {
+        String content = "";
+        for (int i = 0; i < information.size(); i++) {
+            content += information.get(i).getTime() + ": " + information.get(i).getContent() + "\n";
         }
         TAcmd.setText(content);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -161,21 +161,21 @@ public class RunServer extends javax.swing.JFrame {
         chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
-        if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
-            TFpath.setText(""+ chooser.getSelectedFile());
-        }else {
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            TFpath.setText("" + chooser.getSelectedFile());
+        } else {
             JOptionPane.showMessageDialog(null, "Hãy chọn thư mục upload");
         }
     }//GEN-LAST:event_BTpathActionPerformed
 
     private void BTrunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTrunActionPerformed
-        if(TFpath.getText().equals("")){
+        if (TFpath.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Hãy chọn thư mục download");
-        }else {
+        } else {
             try {
-                System.setProperty("java.security.policy","E:\\Subject\\Ky1Nam4\\Hephantan\\BTL_HPT\\rmi_upload_download\\security.policy");
+                System.setProperty("java.security.policy", "C:\\Users\\admin\\Desktop\\New Folder\\hephantan\\security.policy");
                 System.getProperty("java.rmi.server.hostname", getIp());
-                if(System.getSecurityManager() == null){
+                if (System.getSecurityManager() == null) {
                     System.setSecurityManager(new RMISecurityManager());
                 }
                 server = new FileServer(chooser.getSelectedFile());
@@ -183,7 +183,7 @@ public class RunServer extends javax.swing.JFrame {
                 initTime();
                 BTrun.setEnabled(false);
                 BTstop.setEnabled(true);
-                
+
             } catch (RemoteException ex) {
                 Logger.getLogger(RunServer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
@@ -202,7 +202,7 @@ public class RunServer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BTstopActionPerformed
 
-    public static String getIp(){
+    public static String getIp() {
         String ipAddress = null;
         Enumeration<NetworkInterface> net = null;
         try {
@@ -210,23 +210,22 @@ public class RunServer extends javax.swing.JFrame {
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
-        while(net.hasMoreElements()){
+        while (net.hasMoreElements()) {
             NetworkInterface element = net.nextElement();
             Enumeration<InetAddress> addresses = element.getInetAddresses();
-            while(addresses.hasMoreElements()){
+            while (addresses.hasMoreElements()) {
                 InetAddress ip = addresses.nextElement();
-                if(ip instanceof Inet4Address){
+                if (ip instanceof Inet4Address) {
                     if (ip.isSiteLocalAddress()) {
                         ipAddress = ip.getHostAddress();
                     }
                 }
-            }                       
+            }
         }
         return ipAddress;
-        
+
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
