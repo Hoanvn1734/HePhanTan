@@ -71,21 +71,8 @@ public class FileServer extends UnicastRemoteObject implements FileServerInt {
         listThread.add(name);
     }
 
-    public ArrayList getListThread() {
-        return listThread;
-    }
-
-    public void setListThread(ArrayList listThread) {
-        this.listThread = listThread;
-    }
-
     @Override
     public void addUserName(String file, String name) throws RemoteException {
-        listFile.put(file, name);
-    }
-
-    @Override
-    public void updateUserName(String file, String name) throws RemoteException {
         listFile.put(file, name);
     }
 
@@ -116,20 +103,6 @@ public class FileServer extends UnicastRemoteObject implements FileServerInt {
     @Override
     public File getServerFile() throws RemoteException {
         return serverFile;
-    }
-
-//    @Override
-//    public void setFile(File serverFile) throws RemoteException{
-//        this.serverFile = serverFile;
-//    }
-    @Override
-    public OutputStream getFileOutputStream(File file) throws Exception {
-        return new SerializableOutputStream(new FileOutputStream(file));
-    }
-
-    @Override
-    public InputStream getFileInputStream(File file) throws Exception {
-        return new SerializableInputStream(new FileInputStream(file));
     }
 
     @Override

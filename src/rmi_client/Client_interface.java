@@ -39,12 +39,13 @@ public class Client_interface extends javax.swing.JFrame {
     private int state = -1; // 1 la upload, 2 la download
     private File server_path;
     private String client_path = "";
-//    private UpDownload updownload;
     private String UserName = "";
     private AtomicBoolean pauseUpload;
     private AtomicBoolean pauseDownload;
     private UpDownload upload;
     private UpDownload download;
+    public static int numberThread = 0;
+    public static final int MAX_THREAD = 4;
 
     public Client_interface(final String path, FileClientInt client, FileServerInt server, String userName) throws RemoteException, Exception {
         this.UserName = userName;
@@ -239,6 +240,10 @@ public class Client_interface extends javax.swing.JFrame {
     }
 
     private void BT_clientUpLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_clientUpLoadActionPerformed
+        if(numberThread > MAX_THREAD) {
+            JOptionPane.showMessageDialog(null, "Số lượng file upload quá hạn. Vui lòng chờ!");
+        }
+        numberThread++;
         int row = TB_client.getSelectedRow();
         if (row > -1) {
             if (BT_clientUpLoad.getText().equalsIgnoreCase("Upload")) {
@@ -254,7 +259,8 @@ public class Client_interface extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "File đang được upload bởi user khác");
                     } else{
                         server.addFileName(clientfile.getName());
-                        upload.start();
+                        new task_download(upload).setVisible(true);
+//                        upload.start();
                     }
                 } catch (RemoteException ex) {
                     Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
@@ -268,6 +274,10 @@ public class Client_interface extends javax.swing.JFrame {
     }//GEN-LAST:event_BT_clientUpLoadActionPerformed
 
     private void BT_serverDownLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_serverDownLoadActionPerformed
+        if(numberThread > MAX_THREAD) {
+            JOptionPane.showMessageDialog(null, "Số lượng file download quá hạn. Vui lòng chờ!");
+        }
+        numberThread++;
         int row = TB_server.getSelectedRow();
         if (row > -1) {
             if (BT_serverDownLoad.getText().equalsIgnoreCase("Download")) {
@@ -276,7 +286,8 @@ public class Client_interface extends javax.swing.JFrame {
                     File serverfile = new File(server_path + "/" + TB_server.getValueAt(row, 1));
                     File clientfile = new File(client_path);
                     download = new UpDownload(client, server, 2, UserName, serverfile, clientfile);
-                    download.start();
+                    new task_download(download).setVisible(true);
+//                    download.start();
                 } catch (Exception ex) {
                     Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -42,10 +42,8 @@ public class UpDownload extends Thread {
     private static int countTotalFile;
     private File source;
     private File destination;
-
-    public UpDownload(String userName) {
-        this.Username = userName;
-    }
+    long tong = 0;
+    long uploaded = 0;
 
     public UpDownload(FileClientInt client, FileServerInt server,
             int state, String userName, File source, File destination) {
@@ -57,22 +55,7 @@ public class UpDownload extends Thread {
         this.state = state;
         this.source = source;
         this.destination = destination;
-    }
-
-    public File getSource() {
-        return source;
-    }
-
-    public void setSource(File source) {
-        this.source = source;
-    }
-
-    public File getDestination() {
-        return destination;
-    }
-
-    public void setDestination(File destination) {
-        this.destination = destination;
+        tong = source.length();
     }
 
     @Override
@@ -98,7 +81,10 @@ public class UpDownload extends Thread {
             splitFile(source, destination);
             mergeFile(destination);
             try {
+                // Khi ghep file xong thi xoa phan tu trong ListThread
                 server.removeElement(source.getName());
+                
+                // Them ten client vua upload vao Map 
                 server.addUserName(source.getName(), this.Username);
             } catch (RemoteException ex) {
                 Logger.getLogger(UpDownload.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,6 +117,11 @@ public class UpDownload extends Thread {
                 byteChunkPart = new byte[readLength];
                 read = fis.read(byteChunkPart, 0, (int) readLength);
                 sizeSrcFile -= read;
+                uploaded += read;
+                System.out.println("Read: " + read);
+                System.out.println("Uploaded: " + uploaded);
+                System.out.println("sizeSrcFile: " + sizeSrcFile);
+                System.out.println("Uploaded " + uploaded * 100 / tong + "%");
                 nChunks++;
                 countTotalFile = nChunks;
                 System.out.println(countTotalFile);
