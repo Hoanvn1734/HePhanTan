@@ -24,6 +24,7 @@ import jdk.nashorn.internal.ir.ContinueNode;
 import rmi_server.FileServer;
 import rmi_server.FileServerInt;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javax.swing.JFrame;
 
 /**
  *
@@ -259,7 +260,10 @@ public class Client_interface extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "File đang được upload bởi user khác");
                     } else{
                         server.addFileName(clientfile.getName());
-                        new task_download(upload).setVisible(true);
+                      task_download taskDownload =  new task_download(upload);
+                      taskDownload.setVisible(true);
+                      taskDownload.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        
 //                        upload.start();
                     }
                 } catch (RemoteException ex) {
@@ -286,7 +290,9 @@ public class Client_interface extends javax.swing.JFrame {
                     File serverfile = new File(server_path + "/" + TB_server.getValueAt(row, 1));
                     File clientfile = new File(client_path);
                     download = new UpDownload(client, server, 2, UserName, serverfile, clientfile);
-                    new task_download(download).setVisible(true);
+                   task_download taskDownload = new task_download(download);
+                   taskDownload.setVisible(true);
+                   taskDownload.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //                    download.start();
                 } catch (Exception ex) {
                     Logger.getLogger(Client_interface.class.getName()).log(Level.SEVERE, null, ex);
