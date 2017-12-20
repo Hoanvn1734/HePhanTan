@@ -33,6 +33,13 @@ public final class task_download extends javax.swing.JFrame {
         task = new Task();
         task.start();
         upload.start();
+        lblSize.setText(upload.tong /1024 / 1204 + "MB");
+        lblNameFile.setText("" + upload.fileName);
+        if(upload.getstate() == 1) {
+            lblStatus.setText("UPLOAD");
+        }else{
+            lblStatus.setText("DOWNLOAD");
+        }
     }
 
     public task_download() {
@@ -56,6 +63,7 @@ public final class task_download extends javax.swing.JFrame {
                         if(upload.uploaded == upload.tong) {
                             isRunning = false;
                             Client_interface.numberThread--;
+                            btnStop.setText("Đã xong");
                         }
                         System.out.println("UPLOADED: " + upload.uploaded);
                         System.out.println("Total: " + upload.tong);
@@ -81,32 +89,26 @@ public final class task_download extends javax.swing.JFrame {
     private void initComponents() {
 
         progressbarDownload = new javax.swing.JProgressBar();
-        jLabel1 = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
         lblPhanTram = new javax.swing.JLabel();
         btnStop = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
         lblNameFile = new javax.swing.JLabel();
         lblSize = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 51, 153));
-        jLabel1.setText("Downloading File");
+        lblStatus.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(0, 51, 153));
+        lblStatus.setText("Downloading File");
 
+        lblPhanTram.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPhanTram.setForeground(new java.awt.Color(0, 0, 102));
         lblPhanTram.setText("50%");
 
         btnStop.setText("Pause");
         btnStop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStopActionPerformed(evt);
-            }
-        });
-
-        btnCancel.setText("Cancel");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
             }
         });
 
@@ -122,20 +124,17 @@ public final class task_download extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(progressbarDownload, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
+                        .addComponent(lblStatus)
+                        .addGap(46, 46, 46)
                         .addComponent(lblNameFile)
-                        .addGap(37, 37, 37)
-                        .addComponent(lblSize)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                        .addComponent(lblSize))
+                    .addComponent(progressbarDownload, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblPhanTram)
-                        .addGap(12, 12, 12))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -143,16 +142,15 @@ public final class task_download extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblStatus)
                     .addComponent(lblNameFile)
-                    .addComponent(lblPhanTram, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSize))
                 .addGap(38, 38, 38)
                 .addComponent(progressbarDownload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnStop)
-                    .addComponent(btnCancel))
+                    .addComponent(lblPhanTram, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -171,11 +169,6 @@ public final class task_download extends javax.swing.JFrame {
             pauseUpload.set(false);
         }
     }//GEN-LAST:event_btnStopActionPerformed
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-         System.exit(0);
-    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,12 +207,11 @@ public final class task_download extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnStop;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblNameFile;
     private javax.swing.JLabel lblPhanTram;
     private javax.swing.JLabel lblSize;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JProgressBar progressbarDownload;
     // End of variables declaration//GEN-END:variables
 }

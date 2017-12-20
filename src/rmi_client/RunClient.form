@@ -38,8 +38,8 @@
                               <Component id="jLabel2" linkSize="1" min="-2" pref="107" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="TFfordershare" linkSize="3" min="-2" pref="257" max="-2" attributes="0"/>
                                   <Component id="BTchose" min="-2" max="-2" attributes="0"/>
+                                  <Component id="TFfordershare" linkSize="3" alignment="0" min="-2" pref="257" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -89,6 +89,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="TFip">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="127.0.0.1"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -99,6 +102,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="BTchose">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Choose Folder"/>
       </Properties>
       <Events>
@@ -107,6 +113,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="BTconnect">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="cc" green="0" red="0" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Connect"/>
       </Properties>
       <Events>
@@ -119,6 +131,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="TFname">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="RMI"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

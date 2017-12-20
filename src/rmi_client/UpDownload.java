@@ -44,6 +44,7 @@ public class UpDownload extends Thread {
     private File destination;
     long tong = 0;
     long uploaded = 0;
+    String fileName = "";
 
     public UpDownload(FileClientInt client, FileServerInt server,
             int state, String userName, File source, File destination) {
@@ -56,7 +57,9 @@ public class UpDownload extends Thread {
         this.source = source;
         this.destination = destination;
         tong = source.length();
+        fileName = source.getName();
     }
+
 
     @Override
     public void run() {
@@ -181,6 +184,8 @@ public class UpDownload extends Thread {
             exception.printStackTrace();
         }
     }
+    
+  
 
     public boolean isCheck() {
         return check;

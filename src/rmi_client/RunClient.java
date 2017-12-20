@@ -36,10 +36,11 @@ public class RunClient extends javax.swing.JFrame {
 
     public RunClient() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     private void connectToServer() throws Exception {
-        System.setProperty("java.security.policy","E:\\Subject\\Ky1Nam4\\Hephantan\\BTL_HPT\\rmi_upload_download\\security.policy");
+        System.setProperty("java.security.policy","C:\\Users\\Administrator\\Desktop\\WorkSpace\\hpt2\\security.policy");
         System.getProperty("java.rmi.server.hostname", getIp());
         String url = "rmi://" + TFip.getText() + ":6969" + "/server";
         // Tao lien ket tim kiem loi goi tu xa
@@ -94,8 +95,11 @@ public class RunClient extends javax.swing.JFrame {
 
         jLabel1.setText("  IP/localhost");
 
+        TFip.setText("127.0.0.1");
+
         jLabel2.setText("  Forder Share");
 
+        BTchose.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         BTchose.setText("Choose Folder");
         BTchose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,6 +107,8 @@ public class RunClient extends javax.swing.JFrame {
             }
         });
 
+        BTconnect.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        BTconnect.setForeground(new java.awt.Color(0, 0, 204));
         BTconnect.setText("Connect");
         BTconnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,6 +117,8 @@ public class RunClient extends javax.swing.JFrame {
         });
 
         jLabel3.setText(" Name");
+
+        TFname.setText("RMI");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,8 +138,8 @@ public class RunClient extends javax.swing.JFrame {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(TFfordershare, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BTchose)))
+                                    .addComponent(BTchose)
+                                    .addComponent(TFfordershare, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -194,7 +202,9 @@ public class RunClient extends javax.swing.JFrame {
         }else {
             try {
                 connectToServer();
-                new Client_interface(chooser.getSelectedFile().getAbsolutePath(), client, server, TFname.getText()).setVisible(true);
+                Client_interface clientInterface =  new Client_interface(chooser.getSelectedFile().getAbsolutePath(), client, server, TFname.getText());
+                clientInterface.setVisible(true);
+                clientInterface.setLocationRelativeTo(null);
                 this.setVisible(false);
             } catch (Exception ex) {
                 Logger.getLogger(RunClient.class.getName()).log(Level.SEVERE, null, ex);

@@ -113,8 +113,6 @@ public class Client_interface extends javax.swing.JFrame {
         TB_server = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         BT_serverDownLoad = new javax.swing.JButton();
-        BT_PauseUpload = new javax.swing.JButton();
-        BT_PauseDownload = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,6 +136,8 @@ public class Client_interface extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TB_client);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
         jLabel1.setText("Client");
 
         TB_server.setModel(new javax.swing.table.DefaultTableModel(
@@ -153,6 +153,8 @@ public class Client_interface extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(TB_server);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
         jLabel2.setText("Server");
 
         BT_serverDownLoad.setText("Download");
@@ -162,64 +164,42 @@ public class Client_interface extends javax.swing.JFrame {
             }
         });
 
-        BT_PauseUpload.setText("Pause");
-        BT_PauseUpload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_PauseUploadActionPerformed(evt);
-            }
-        });
-
-        BT_PauseDownload.setText("Pause");
-        BT_PauseDownload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_PauseDownloadActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(178, 178, 178)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(241, 241, 241))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(BT_clientUpLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
-                .addComponent(BT_PauseUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(236, 236, 236)
-                .addComponent(BT_serverDownLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
-                .addComponent(BT_PauseDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(186, 186, 186)
+                        .addComponent(BT_clientUpLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BT_serverDownLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BT_serverDownLoad)
                     .addComponent(BT_clientUpLoad)
-                    .addComponent(BT_PauseUpload)
-                    .addComponent(BT_PauseDownload))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -303,42 +283,6 @@ public class Client_interface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BT_serverDownLoadActionPerformed
 
-    private void BT_PauseDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_PauseDownloadActionPerformed
-        // TODO add your handling code here:
-        int row = TB_server.getSelectedRow();
-        if (row > -1) {
-            if (!pauseDownload.get()) {
-                download.pause();
-                BT_PauseDownload.setText("Resume");
-                pauseDownload.set(true);
-            } else {
-                download.resumeThread();
-                BT_PauseDownload.setText("Pause");
-                pauseDownload.set(false);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Bạn chưa chọn file nào để Pause");
-        }
-    }//GEN-LAST:event_BT_PauseDownloadActionPerformed
-
-    private void BT_PauseUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_PauseUploadActionPerformed
-        // TODO add your handling code here:
-        int row = TB_client.getSelectedRow();
-        if (row > -1) {
-            if (!pauseUpload.get()) {
-                upload.pause();
-                BT_PauseUpload.setText("Resume");
-                pauseUpload.set(true);
-            } else {
-                upload.resumeThread();
-                BT_PauseUpload.setText("Pause");
-                pauseUpload.set(false);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Bạn chưa chọn file nào để Pause");
-        }
-    }//GEN-LAST:event_BT_PauseUploadActionPerformed
-
 //    public String getPath(String currentpath) {
 //        int endIndex = 0;
 //        for (int i = currentpath.length() - 1; i >= 0; i--) {
@@ -356,8 +300,6 @@ public class Client_interface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BT_PauseDownload;
-    private javax.swing.JButton BT_PauseUpload;
     private javax.swing.JButton BT_clientUpLoad;
     private javax.swing.JButton BT_serverDownLoad;
     private javax.swing.JTable TB_client;
